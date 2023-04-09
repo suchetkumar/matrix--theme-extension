@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    width: 20em;
+    background-image: linear-gradient(180deg, beige, grey);
+}
+
+.bottom {
+    position: absolute;
+    bottom: 1em;
+}
+
+.center {
+    left: 50%;
+    right: 50%;
+}
+
+.button {
+    transition-duration: 0.4s;
+    width: 50%;
+}
+  
+.button:hover {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+input {
+    position: absolute;
+    right: 2em;
+}
+
+.row {
+    padding: 1em;
+}
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,36 @@
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="form">
+        <div class="row">
+            <label for="color-picker">Color:</label>
+            <input type="color" value="#00ff00" id="color-picker" />
+        </div>
+    
+        <div class="row">
+            <label for="font-picker">Font Size:</label>
+            <input type="number" name="number" min = "5" max="100" step="1" value="11" id="font-picker">
+        </div>
+    
+        <div class="row">
+            <label for="speed-picker">Frame Rate (per second):</label>
+            <input type="number" name="number" min = "1" max="50" step="1" value="15" id="speed-picker">
+        </div>
+    
+        <div class="row">
+            <label for="transparency-picker">Opacity:</label>
+            <input type="number" name="number" min = "0" max="1" step="0.1" value="0.4" id="transparency-picker">
+        </div>
+
+        <div class="row center-container">
+            <p id="status"></p>
+        </div>
+
+        <div class="row center-container">
+            <button id="save" class="button">Save</button>
+        </div>
+    
+    </div>
+</body>
+<script src="popup.js"></script>
