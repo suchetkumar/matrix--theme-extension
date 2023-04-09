@@ -38,3 +38,19 @@ input {
     justify-content: center;
     align-items: center;
 }
+
+.btn {
+    display: block;
+    background: #4E9CAF;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    width: 50%;
+}
+
+.right-container {
+    display: flex;
+    justify-content: right;
+}
