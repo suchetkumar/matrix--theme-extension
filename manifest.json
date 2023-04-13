@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "The Matrix Dynamic Background",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Chrome's first dynamic 'The Matrix' digital rain background. ",
     "icons": {
         "128": "images/matrix.png"

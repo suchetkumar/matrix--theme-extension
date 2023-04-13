@@ -1,7 +1,7 @@
 var settings;
 
 // a higher fade factor will make the characters fade quicker
-var fadeFactor = 0.04;
+var fadeFactor = 0.06;
 var canvas;
 var ctx;
 var columns = [];
