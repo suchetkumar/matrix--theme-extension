@@ -20,6 +20,12 @@ function randomChar() {
 
 function init(body)
 {
+    console.log('init');
+    canvas = document.getElementsByTagName('canvas')
+    if (canvas.length > 0) {
+        canvas[0].remove();
+    }
+
 	canvas = document.createElement('canvas');
     canvas.width = "100%";
     canvas.height = "100%";
@@ -143,18 +149,17 @@ function getSettings() {
 }    
     
 settings = getSettings();
-// console.log("Settings: ", settings);
-var body = document.getElementsByTagName("body")
-if (body) {
-    // console.log("found body");
-    init(body[0]);
-}
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
     settings = getSettings();
     // console.log("Settings: ", settings);
 });
 
+var body = document.getElementsByTagName("body")[0]
+
+new MutationObserver(() => {
+    init(body);
+  }).observe(document, {subtree: true, childList: true});
 
 
 
