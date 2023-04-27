@@ -1,4 +1,4 @@
-// Saves options to chrome.storage
+// Saves options to storage
 const saveOptions = () => {
   const color = document.getElementById('color-picker').value;
   const font = document.getElementById('font-picker').value;
@@ -25,7 +25,7 @@ const saveOptions = () => {
   };
 
   // console.log(items);
-  chrome.storage.local.set(
+  browser.storage.local.set(
     items,
     () => {
       // Update status to let user know options were saved.
@@ -40,9 +40,9 @@ const saveOptions = () => {
 
 
 // Restores select box and checkbox state using the preferences
-// stored in chrome.storage.
+// stored in storage.
 const restoreOptions = () => {
-  chrome.storage.local.get(
+  browser.storage.local.get(
     ["colorChoice", "fontChoice", "speedChoice", "transparencyChoice"],
     (items) => {
       // only restore options if some options are saved

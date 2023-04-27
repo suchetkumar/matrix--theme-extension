@@ -1,4 +1,4 @@
-chrome.tabs.update({
+browser.tabs.update({
     url: "https://www.google.com/"
 });
 

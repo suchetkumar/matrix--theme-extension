@@ -13,8 +13,8 @@ function randomChar() {
     if (r < 0.094) return String.fromCharCode(33+Math.floor(Math.random()*94));
     // 161-687
     if (r < 0.62) return String.fromCharCode(161+Math.floor(Math.random()*527));
-    // 911-1277
-    return String.fromCharCode(911+Math.floor(Math.random()*367));
+    // 931-1277
+    return String.fromCharCode(931+Math.floor(Math.random()*347));
 }
 
 
@@ -93,6 +93,7 @@ function draw()
     {
         // pick a random ascii character (change the 94 to a higher number to include more characters)
         var randomCharacter = randomChar();
+        console.log(randomCharacter)
         ctx.fillText( randomCharacter , columns[i].x , columns[i].stackCounter*settings.fontChoice+settings.fontChoice );
 
         // if the stack is at its height limit, pick a new random height and reset the counter
@@ -126,7 +127,7 @@ function updateFadeFactor()
 
 function getSettings() {
     settings = {};
-    chrome.storage.local.get(["colorChoice", "fontChoice", "speedChoice", "transparencyChoice"], function(items) {
+    browser.storage.local.get(["colorChoice", "fontChoice", "speedChoice", "transparencyChoice"], function(items) {
         if (items.colorChoice) {
             // console.log("setting the preferences");
             const r = parseInt(items.colorChoice.substr(1,2), 16);
@@ -150,16 +151,13 @@ function getSettings() {
     
 settings = getSettings();
 
-chrome.storage.onChanged.addListener((changes, namespace) => {
+browser.storage.onChanged.addListener((changes, namespace) => {
     settings = getSettings();
     // console.log("Settings: ", settings);
 });
 
 var body = document.getElementsByTagName("body")[0]
-
-new MutationObserver(() => {
-    init(body);
-  }).observe(document, {subtree: true, childList: true});
+init(body);
 
 
 
