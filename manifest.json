@@ -4,7 +4,7 @@
     "version": "1.1",
     "description": "Chrome's first dynamic 'The Matrix' digital rain background. ",
     "icons": {
-        "128": "images/matrix.png"
+        "128": "images/matrix-128.png"
     },
     "content_scripts": [
         {
