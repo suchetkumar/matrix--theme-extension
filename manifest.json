@@ -10,7 +10,7 @@
         {
             "js": ["scripts/content.js"],
             "matches": [
-                "https://*.google.com/*"
+                "https://www.google.com/*"
             ]
         }
     ],

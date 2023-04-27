@@ -25,37 +25,27 @@ function init(body)
     if (canvas.length > 0) {
         canvas[0].remove();
     }
-
 	canvas = document.createElement('canvas');
     canvas.width = "100%";
     canvas.height = "100%";
     canvas.style.cssText += "z-index:-1; position:fixed";
     body.prepend(canvas);
     // console.log("added canvas to body");
-
 	ctx = canvas.getContext( '2d' );
-
     // https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
-    const resizeObserver = new ResizeObserver( entries =>
-    {
-        for ( let entry of entries )
-        {
-            if ( entry.contentBoxSize )
-            {
+    const resizeObserver = new ResizeObserver( entries => {
+        for ( let entry of entries ) {
+            if ( entry.contentBoxSize ) {
                 // Firefox implements `contentBoxSize` as a single content rect, rather than an array
                 const contentBoxSize = Array.isArray( entry.contentBoxSize ) ? entry.contentBoxSize[0] : entry.contentBoxSize;
-
                 canvas.width = contentBoxSize.inlineSize;
                 canvas.height = window.innerHeight;
-
-                initMatrix(settings);
+                initMatrix();
             }
         }
-    } );
-
+    });
     // observe the size of the document
     resizeObserver.observe( document.documentElement );
-
 	// start the main loop
 	tick();
 }
@@ -93,7 +83,6 @@ function draw()
     {
         // pick a random ascii character (change the 94 to a higher number to include more characters)
         var randomCharacter = randomChar();
-        console.log(randomCharacter)
         ctx.fillText( randomCharacter , columns[i].x , columns[i].stackCounter*settings.fontChoice+settings.fontChoice );
 
         // if the stack is at its height limit, pick a new random height and reset the counter
@@ -108,28 +97,23 @@ function draw()
 
 function tick() 
 {	
-    // console.log('tick');
+    console.log('tick');
     draw();
     setTimeout(tick , settings.sleep);
 }
 
-function updateTileSize()
-{
-    tileSize = Math.min( Math.max( document.getElementById("tileSize").value , 10 ) , 100 );
-    initMatrix();
-}
+settings = {};
+// defaults
+settings.colorChoice = `rgb(0,255,0)`;
+settings.fontChoice = 11;
+settings.speedChoice = 20;
+settings.transparencyChoice = 0.7;
+settings.sleep = Math.floor(1000/settings.speedChoice);
 
-function updateFadeFactor()
-{
-    fadeFactor = Math.min( Math.max( document.getElementById("fadeFactor").value , 0.0 ) , 1.0 );
-    initMatrix();
-}
-
-function getSettings() {
-    settings = {};
+function updateSettings() {
     browser.storage.local.get(["colorChoice", "fontChoice", "speedChoice", "transparencyChoice"], function(items) {
         if (items.colorChoice) {
-            // console.log("setting the preferences");
+            console.log("setting the preferences");
             const r = parseInt(items.colorChoice.substr(1,2), 16);
             const g = parseInt(items.colorChoice.substr(3,2), 16);
             const b = parseInt(items.colorChoice.substr(5,2), 16);
@@ -137,28 +121,15 @@ function getSettings() {
             settings.fontChoice = parseInt(items.fontChoice, 10);
             settings.speedChoice = parseInt(items.speedChoice, 10);
             settings.transparencyChoice = parseFloat(items.transparencyChoice);
-        } else {
-            // console.log("no settings. using defaults");
-            settings.colorChoice = `rgb(0,255,0)`;
-            settings.fontChoice = 11;
-            settings.speedChoice = 20;
-            settings.transparencyChoice = 0.7;
+            settings.sleep = Math.floor(1000/settings.speedChoice);
         }
-        settings.sleep = Math.floor(1000/settings.speedChoice)
     });
-    return settings;
 }    
-    
-settings = getSettings();
+updateSettings();
 
 browser.storage.onChanged.addListener((changes, namespace) => {
-    settings = getSettings();
-    // console.log("Settings: ", settings);
+    updateSettings();
 });
 
 var body = document.getElementsByTagName("body")[0]
 init(body);
-
-
-
-
