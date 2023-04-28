@@ -1,15 +1,22 @@
-# <img src="public/icons/icon_48.png" width="45" align="left"> Matrix
+# <img src="public/icons/icon_128.png" width="45" align="left"> 
 
-My Chrome Extension
+### [The Matrix theme Chrome/Firefox Extension](https://chrome.google.com/webstore/detail/the-matrix-dynamic-backgr/oelgedmdpjmoolnnhbcihgkjlflmiopd)
 
-## Features
+This extension simulates the digital rain from the matrix: https://en.wikipedia.org/wiki/Matrix_digital_rain 
 
-- Feature 1
-- Feature 2
+Video Demo: https://www.youtube.com/watch?v=6Wh5_QCzhbQ
+
+
+![image](https://i.imgur.com/CWWKVaX.png)
+
+![image](https://i.imgur.com/ciCPEfr.png)
+
+![image](https://i.imgur.com/EVOBDXZ.png)
 
 ## Install
 
 [**Chrome** extension]() <!-- TODO: Add chrome extension link inside parenthesis -->
+[**Firefox** extension]()
 
 ## Contribution
 

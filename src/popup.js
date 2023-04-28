@@ -1,112 +1,66 @@
-'use strict';
+const { doc } = require("prettier");
 
-import './popup.css';
+// Saves options to chrome.storage
+const saveOptions = () => {
+  const color = document.getElementById('color-picker').value;
+  const font = document.getElementById('font-picker').value;
+  const speed = document.getElementById('speed-picker').value;
+  const transparency = document.getElementById('transparency-picker').value;
 
-(function () {
-  // We will make use of Storage API to get and store `count` value
-  // More information on Storage API can we found at
-  // https://developer.chrome.com/extensions/storage
+  let val = parseInt(font, 10);
+  if (val == NaN || val < 5 || val > 100) {
+    alert(`Invalid font ${font} must be an integer between 5 and 100.`); return;
+  }
+  val = parseInt(speed, 10);
+  if (val == NaN || val < 1 || val > 50) {
+    alert(`Invalid frame rate ${speed} must be an integer between 1 and 50.`); return;
+  }
+  val = parseFloat(transparency);
+  if (val == NaN || val < 0 || val > 1) {
+    alert(`Invalid opacity ${transparency} must be an float between 0 and 1.`); return;
+  }
 
-  // To get storage access, we have to mention it in `permissions` property of manifest.json file
-  // More information on Permissions can we found at
-  // https://developer.chrome.com/extensions/declare_permissions
-  const counterStorage = {
-    get: (cb) => {
-      chrome.storage.sync.get(['count'], (result) => {
-        cb(result.count);
-      });
-    },
-    set: (value, cb) => {
-      chrome.storage.sync.set(
-        {
-          count: value,
-        },
-        () => {
-          cb();
-        }
-      );
-    },
+  items = { colorChoice: color, 
+    fontChoice: font,
+    speedChoice: speed, 
+    transparencyChoice: transparency
   };
 
-  function setupCounter(initialValue = 0) {
-    document.getElementById('counter').innerHTML = initialValue;
-
-    document.getElementById('incrementBtn').addEventListener('click', () => {
-      updateCounter({
-        type: 'INCREMENT',
-      });
-    });
-
-    document.getElementById('decrementBtn').addEventListener('click', () => {
-      updateCounter({
-        type: 'DECREMENT',
-      });
-    });
-  }
-
-  function updateCounter({ type }) {
-    counterStorage.get((count) => {
-      let newCount;
-
-      if (type === 'INCREMENT') {
-        newCount = count + 1;
-      } else if (type === 'DECREMENT') {
-        newCount = count - 1;
-      } else {
-        newCount = count;
-      }
-
-      counterStorage.set(newCount, () => {
-        document.getElementById('counter').innerHTML = newCount;
-
-        // Communicate with content script of
-        // active tab by sending a message
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-          const tab = tabs[0];
-
-          chrome.tabs.sendMessage(
-            tab.id,
-            {
-              type: 'COUNT',
-              payload: {
-                count: newCount,
-              },
-            },
-            (response) => {
-              console.log('Current count value passed to contentScript file');
-            }
-          );
-        });
-      });
-    });
-  }
-
-  function restoreCounter() {
-    // Restore count value
-    counterStorage.get((count) => {
-      if (typeof count === 'undefined') {
-        // Set counter value as 0
-        counterStorage.set(0, () => {
-          setupCounter(0);
-        });
-      } else {
-        setupCounter(count);
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', restoreCounter);
-
-  // Communicate with background file by sending a message
-  chrome.runtime.sendMessage(
-    {
-      type: 'GREETINGS',
-      payload: {
-        message: 'Hello, my name is Pop. I am from Popup.',
-      },
-    },
-    (response) => {
-      console.log(response.message);
+  // console.log(items);
+  chrome.storage.local.set(
+    items,
+    () => {
+      // Update status to let user know options were saved.
+      const status = document.getElementById('status');
+      status.textContent = 'Options saved.';
+      setTimeout(() => {
+        status.textContent = '';
+      }, 750);
     }
   );
-})();
+};
+
+
+// Restores select box and checkbox state using the preferences
+// stored in chrome.storage.
+const restoreOptions = () => {
+  chrome.storage.local.get(
+    ["colorChoice", "fontChoice", "speedChoice", "transparencyChoice"],
+    (items) => {
+      // only restore options if some options are saved
+      if (items.colorChoice) {        
+        document.getElementById('color-picker').value = items.colorChoice;
+        document.getElementById('font-picker').value = items.fontChoice;
+        document.getElementById('speed-picker').value = items.speedChoice;
+        document.getElementById('transparency-picker').value = items.transparencyChoice;
+        document.getElementById('popup').setAttribute('bgcolor', items.colorChoice);
+      }
+    }
+  );
+};
+
+document.addEventListener('DOMContentLoaded', restoreOptions);
+document.getElementById('save').addEventListener('click', saveOptions);
+document.getElementById('color-picker').addEventListener('change', (event) => {
+  document.getElementById('popup').setAttribute('bgcolor', event.target.value);
+});
