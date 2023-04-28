@@ -44,10 +44,11 @@ input {
   background: #4E9CAF;
   text-align: center;
   border-radius: 5px;
-  color: white;
+  color: beige;
   font-weight: bold;
   text-decoration: none;
   width: 50%;
+  border-color: beige;
 }
 
 .right-container {

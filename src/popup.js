@@ -59,8 +59,17 @@ const restoreOptions = () => {
   );
 };
 
+const randomColor = () => {
+  var randomColor = Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+  let choice = "#" + randomColor;
+  document.getElementById('color-picker').value = choice;
+  chrome.storage.local.set({colorChoice: choice});
+  document.getElementById('popup').setAttribute('bgcolor', choice);
+}
+
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.getElementById('save').addEventListener('click', saveOptions);
 document.getElementById('color-picker').addEventListener('change', (event) => {
   document.getElementById('popup').setAttribute('bgcolor', event.target.value);
 });
+document.getElementById('random-color').addEventListener('click', randomColor);

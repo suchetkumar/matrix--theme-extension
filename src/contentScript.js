@@ -25,13 +25,13 @@ function init(body)
     if (canvas.length > 0) {
         canvas[0].remove();
     }
-	canvas = document.createElement('canvas');
+    canvas = document.createElement('canvas');
     canvas.width = "100%";
     canvas.height = "100%";
     canvas.style.cssText += "z-index:-1; position:fixed";
     body.prepend(canvas);
     // console.log("added canvas to body");
-	ctx = canvas.getContext( '2d' );
+    ctx = canvas.getContext( '2d' );
     // https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
     const resizeObserver = new ResizeObserver( entries => {
         for ( let entry of entries ) {
@@ -46,8 +46,8 @@ function init(body)
     });
     // observe the size of the document
     resizeObserver.observe( document.documentElement );
-	// start the main loop
-	tick();
+    // start the main loop
+    tick();
 }
 
 function initMatrix()

@@ -1,3 +1,1 @@
-chrome.tabs.update({
-    url: "https://www.google.com/"
-});
+chrome.tabs.update({url: "https://www.google.com/"});
