@@ -53,3 +53,8 @@ input {
   display: flex;
   justify-content: right;
 }
+
+.right {
+  position: absolute;
+  right: 2em;
+}

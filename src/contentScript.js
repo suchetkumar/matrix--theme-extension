@@ -73,6 +73,10 @@ function initMatrix()
 
 function draw()
 {
+    if (settings.enabledChoice == false) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      return;
+    }
     // draw a semi transparent black rectangle on top of the scene to slowly fade older characters
     ctx.fillStyle = "rgba( 0 , 0 , 0 , "+fadeFactor/settings.transparencyChoice+" )";
     ctx.fillRect( 0 , 0 , canvas.width , canvas.height );
@@ -108,9 +112,10 @@ settings.fontChoice = 11;
 settings.speedChoice = 20;
 settings.transparencyChoice = 0.7;
 settings.sleep = Math.floor(1000/settings.speedChoice);
+settings.enabledChoice = true;
 
 function updateSettings() {
-    chrome.storage.local.get(["colorChoice", "fontChoice", "speedChoice", "transparencyChoice"], function(items) {
+    chrome.storage.local.get(["colorChoice", "fontChoice", "speedChoice", "transparencyChoice", "enabledChoice"], function(items) {
         if (items.colorChoice) {
             console.log("setting the preferences");
             const r = parseInt(items.colorChoice.substr(1,2), 16);
@@ -121,8 +126,10 @@ function updateSettings() {
             settings.speedChoice = parseInt(items.speedChoice, 10);
             settings.transparencyChoice = parseFloat(items.transparencyChoice);
             settings.sleep = Math.floor(1000/settings.speedChoice);
+            settings.enabledChoice = items.enabledChoice;
         }
     });
+    console.log(settings);
 }    
 updateSettings();
 
@@ -130,5 +137,10 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
     updateSettings();
 });
 
-var body = document.getElementsByTagName("body")[0]
-init(body);
+function start() {
+    var body = document.getElementsByTagName("body")[0]
+    init(body);
+}
+
+start();
+
