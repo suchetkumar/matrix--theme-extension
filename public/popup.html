@@ -6,7 +6,10 @@
       <div class="row">
           <label for="color-picker">Color:</label>
           <button id="random-color">Random Color</button>
-          <input type="color" value="#00ff00" id="color-picker" />
+      </div>
+
+      <div class="row center-container">
+        <div id="picker"></div>
       </div>
   
       <div class="row">
@@ -25,7 +28,7 @@
       </div>
 
       <div class="row center-container">
-          <p id="status"></p>
+          <p id="status">&darr; Click to save options &darr;</p>
       </div>
 
       <div class="row center-container">
@@ -33,9 +36,9 @@
       </div>
 
       <div class="row right-container">
+          <button id="toggle" class="button">Disable</button>
           <a class="btn" href="https://chrome.google.com/webstore/detail/the-matrix-dynamic-backgr/oelgedmdpjmoolnnhbcihgkjlflmiopd/reviews" target="_blank">Leave a Review!</a>
-      </div>
-  
+      </div>  
   </div>
 </body>
 <script src="popup.js"></script>

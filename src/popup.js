@@ -1,11 +1,29 @@
+import ColorPicker from "simple-color-picker";
 const { doc } = require("prettier");
+
+
+var picker = new ColorPicker({
+  el: document.getElementById('picker'),
+  background: '#656565',
+  color: '#00FF00'
+});
+
+picker.onChange(hexStringColor => {
+  document.body.style.backgroundColor = hexStringColor;
+});
+
+function isEnabled() {
+  let text = document.getElementById("toggle").textContent;
+  return text == "Disable";
+}
 
 // Saves options to chrome.storage
 const saveOptions = () => {
-  const color = document.getElementById('color-picker').value;
+  const color = picker.getColor();
   const font = document.getElementById('font-picker').value;
   const speed = document.getElementById('speed-picker').value;
   const transparency = document.getElementById('transparency-picker').value;
+  const enabled = isEnabled();
 
   let val = parseInt(font, 10);
   if (val == NaN || val < 5 || val > 100) {
@@ -20,10 +38,11 @@ const saveOptions = () => {
     alert(`Invalid opacity ${transparency} must be an float between 0 and 1.`); return;
   }
 
-  items = { colorChoice: color, 
+  var items = { colorChoice: color, 
     fontChoice: font,
     speedChoice: speed, 
-    transparencyChoice: transparency
+    transparencyChoice: transparency,
+    enabledChoice: enabled
   };
 
   // console.log(items);
@@ -34,7 +53,7 @@ const saveOptions = () => {
       const status = document.getElementById('status');
       status.textContent = 'Options saved.';
       setTimeout(() => {
-        status.textContent = '';
+        status.textContent = `\u2193 Click to save options \u2193`;
       }, 750);
     }
   );
@@ -45,31 +64,45 @@ const saveOptions = () => {
 // stored in chrome.storage.
 const restoreOptions = () => {
   chrome.storage.local.get(
-    ["colorChoice", "fontChoice", "speedChoice", "transparencyChoice"],
+    ["colorChoice", "fontChoice", "speedChoice", "transparencyChoice", "enabledChoice"],
     (items) => {
       // only restore options if some options are saved
-      if (items.colorChoice) {        
-        document.getElementById('color-picker').value = items.colorChoice;
+      if (items.colorChoice) { 
+        console.log(items);       
+        picker.setColor(items.colorChoice);
         document.getElementById('font-picker').value = items.fontChoice;
         document.getElementById('speed-picker').value = items.speedChoice;
         document.getElementById('transparency-picker').value = items.transparencyChoice;
         document.getElementById('popup').setAttribute('bgcolor', items.colorChoice);
+        if (items.enabledChoice == false) {
+          document.getElementById("toggle").textContent = 'Enable';
+        }
       }
     }
   );
 };
 
-const randomColor = () => {
-  var randomColor = Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-  let choice = "#" + randomColor;
-  document.getElementById('color-picker').value = choice;
-  saveOptions()
-  document.getElementById('popup').setAttribute('bgcolor', choice);
+function toggle() {
+  if (isEnabled()) {
+    document.getElementById("toggle").textContent = 'Enable';
+    saveOptions();
+  } else {
+    document.getElementById("toggle").textContent = 'Disable';
+    saveOptions();
+  }
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.getElementById('save').addEventListener('click', saveOptions);
-document.getElementById('color-picker').addEventListener('change', (event) => {
-  document.getElementById('popup').setAttribute('bgcolor', event.target.value);
-});
+
+const randomColor = () => {
+  var randomColor = Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+  let choice = "#" + randomColor;
+  picker.setColor(choice);
+  saveOptions()
+  document.getElementById('popup').setAttribute('bgcolor', choice);
+}
+
 document.getElementById('random-color').addEventListener('click', randomColor);
+
+document.getElementById('toggle').addEventListener('click', toggle);

@@ -22,6 +22,8 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "a-color-picker": "^1.2.1"
+    "a-color-picker": "^1.2.1",
+    "babel-loader": "^9.1.2",
+    "simple-color-picker": "^1.0.5"
   }
 }

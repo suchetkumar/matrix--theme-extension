@@ -46,6 +46,10 @@ const common = {
           },
         ],
       },
+      {
+        test: [/\.ts?$/], 
+        use: {loader: 'ts-loader'}
+      }
     ],
   },
   plugins: [
