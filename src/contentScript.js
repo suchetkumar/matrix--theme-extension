@@ -20,7 +20,7 @@ function randomChar() {
 
 function init(body)
 {
-    console.log('init');
+    // console.log('init');
     canvas = document.getElementsByTagName('canvas')
     if (canvas.length > 0) {
         canvas[0].remove();
@@ -117,7 +117,7 @@ settings.enabledChoice = true;
 function updateSettings() {
     chrome.storage.local.get(["colorChoice", "fontChoice", "speedChoice", "transparencyChoice", "enabledChoice"], function(items) {
         if (items.colorChoice) {
-            console.log("setting the preferences");
+            // console.log("setting the preferences");
             const r = parseInt(items.colorChoice.substr(1,2), 16);
             const g = parseInt(items.colorChoice.substr(3,2), 16);
             const b = parseInt(items.colorChoice.substr(5,2), 16);
@@ -129,7 +129,7 @@ function updateSettings() {
             settings.enabledChoice = items.enabledChoice;
         }
     });
-    console.log(settings);
+    // console.log(settings);
 }    
 updateSettings();
 

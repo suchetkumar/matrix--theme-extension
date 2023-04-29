@@ -68,7 +68,7 @@ const restoreOptions = () => {
     (items) => {
       // only restore options if some options are saved
       if (items.colorChoice) { 
-        console.log(items);       
+        // console.log(items);       
         picker.setColor(items.colorChoice);
         document.getElementById('font-picker').value = items.fontChoice;
         document.getElementById('speed-picker').value = items.speedChoice;
