@@ -109,8 +109,8 @@ settings = {};
 // defaults
 settings.colorChoice = `rgb(0,255,0)`;
 settings.fontChoice = 11;
-settings.speedChoice = 20;
-settings.transparencyChoice = 0.7;
+settings.speedChoice = 15;
+settings.transparencyChoice = 0.4;
 settings.sleep = Math.floor(1000/settings.speedChoice);
 settings.enabledChoice = true;
 
