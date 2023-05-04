@@ -4,18 +4,11 @@
 
 This extension simulates the digital rain from the matrix: https://en.wikipedia.org/wiki/Matrix_digital_rain 
 
-Video Demo: https://www.youtube.com/watch?v=6Wh5_QCzhbQ
-
-
-![image](https://i.imgur.com/CWWKVaX.png)
-
-![image](https://i.imgur.com/ciCPEfr.png)
-
-![image](https://i.imgur.com/EVOBDXZ.png)
+Video Demo: https://www.youtube.com/watch?v=bj_JIcgIOfc
 
 ## Install
 
-[**Chrome** extension]() <!-- TODO: Add chrome extension link inside parenthesis -->
+[**Chrome** extension](https://chrome.google.com/webstore/detail/the-matrix-dynamic-backgr/oelgedmdpjmoolnnhbcihgkjlflmiopd)
 [**Firefox** extension]()
 
 ## Contribution
