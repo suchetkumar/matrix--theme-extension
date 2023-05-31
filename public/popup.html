@@ -4,7 +4,11 @@
 <body id="popup">
   <div id="form" noautohide="true">
       <div class="row">
-          <label for="color-picker">Color:</label>
+          <label for="color-picker">Background Color:</label>
+          <input id="bg-picker" type="color">
+      </div>
+      <div class="row">
+          <label for="color-picker">Text Color:</label>
           <button id="random-color" class="right button">Surprise Me</button>
       </div>
 
@@ -24,7 +28,7 @@
   
       <div class="row">
           <label for="transparency-picker">Opacity:</label>
-          <input type="number" name="number" min = "0" max="1" step="0.1" value="0.4" id="transparency-picker">
+          <input type="number" name="number" min = "0.1" max="1" step="0.1" value="0.4" id="transparency-picker">
       </div>
 
       <div class="row center-container">

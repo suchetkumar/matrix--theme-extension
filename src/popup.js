@@ -19,6 +19,7 @@ function isEnabled() {
 
 // Saves options to chrome.storage
 const saveOptions = () => {
+  const bgcolor = document.getElementById('bg-picker').value;
   const color = picker.getColor();
   const font = document.getElementById('font-picker').value;
   const speed = document.getElementById('speed-picker').value;
@@ -34,18 +35,20 @@ const saveOptions = () => {
     alert(`Invalid frame rate ${speed} must be an integer between 1 and 50.`); return;
   }
   val = parseFloat(transparency);
-  if (val == NaN || val < 0 || val > 1) {
+  if (val == NaN || val <= 0 || val > 1) {
     alert(`Invalid opacity ${transparency} must be an float between 0 and 1.`); return;
   }
 
-  var items = { colorChoice: color, 
+  var items = { 
+    bgChoice: bgcolor,
+    colorChoice: color, 
     fontChoice: font,
     speedChoice: speed, 
     transparencyChoice: transparency,
     enabledChoice: enabled
   };
 
-  // console.log(items);
+  console.log("saving", items);
   chrome.storage.local.set(
     items,
     () => {
@@ -64,11 +67,12 @@ const saveOptions = () => {
 // stored in chrome.storage.
 const restoreOptions = () => {
   chrome.storage.local.get(
-    ["colorChoice", "fontChoice", "speedChoice", "transparencyChoice", "enabledChoice"],
+    ["bgChoice", "colorChoice", "fontChoice", "speedChoice", "transparencyChoice", "enabledChoice"],
     (items) => {
       // only restore options if some options are saved
       if (items.colorChoice) { 
-        // console.log(items);       
+        console.log(items);
+        document.getElementById('bg-picker').value = items.bgChoice;       
         picker.setColor(items.colorChoice);
         document.getElementById('font-picker').value = items.fontChoice;
         document.getElementById('speed-picker').value = items.speedChoice;

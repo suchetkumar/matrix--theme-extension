@@ -1,7 +1,7 @@
 var settings;
 
 // a higher fade factor will make the characters fade quicker
-var fadeFactor = 0.06;
+var fadeFactor = 0.2;
 var canvas;
 var ctx;
 var columns = [];
@@ -69,6 +69,10 @@ function initMatrix()
         // add the column to the list
         columns.push( column );
     }
+    if (settings.enabledChoice) {
+        ctx.fillStyle = `rgb(${settings.bgChoice[0]}, ${settings.bgChoice[1]}, ${settings.bgChoice[2]})`;
+        ctx.fillRect( 0 , 0 , canvas.width , canvas.height );
+    }
 }
 
 function draw()
@@ -78,11 +82,11 @@ function draw()
       return;
     }
     // draw a semi transparent black rectangle on top of the scene to slowly fade older characters
-    ctx.fillStyle = "rgba( 0 , 0 , 0 , "+fadeFactor/settings.transparencyChoice+" )";
+    ctx.fillStyle = `rgba( ${settings.bgChoice[0]}, ${settings.bgChoice[1]}, ${settings.bgChoice[2]} , ${fadeFactor/settings.transparencyChoice} )`;
     ctx.fillRect( 0 , 0 , canvas.width , canvas.height );
 
     ctx.font = (settings.fontChoice)+"px monospace";
-    ctx.fillStyle = settings.colorChoice;
+    ctx.fillStyle = `rgb(${settings.colorChoice[0]}, ${settings.colorChoice[1]}, ${settings.colorChoice[2]})`;
     for ( let i = 0 ; i < columns.length ; ++i )
     {
         // pick a random ascii character (change the 94 to a higher number to include more characters)
@@ -107,7 +111,8 @@ function tick()
 
 settings = {};
 // defaults
-settings.colorChoice = `rgb(0,255,0)`;
+settings.bgChoice = [0,0,0];
+settings.colorChoice = [0,255,0];
 settings.fontChoice = 11;
 settings.speedChoice = 15;
 settings.transparencyChoice = 0.4;
@@ -115,13 +120,19 @@ settings.sleep = Math.floor(1000/settings.speedChoice);
 settings.enabledChoice = true;
 
 function updateSettings() {
-    chrome.storage.local.get(["colorChoice", "fontChoice", "speedChoice", "transparencyChoice", "enabledChoice"], function(items) {
+    chrome.storage.local.get(["bgChoice", "colorChoice", "fontChoice", "speedChoice", "transparencyChoice", "enabledChoice"], function(items) {
         if (items.colorChoice) {
             // console.log("setting the preferences");
-            const r = parseInt(items.colorChoice.substr(1,2), 16);
-            const g = parseInt(items.colorChoice.substr(3,2), 16);
-            const b = parseInt(items.colorChoice.substr(5,2), 16);
-            settings.colorChoice = `rgb(${r},${g},${b})`;
+            settings.bgChoice = [
+              parseInt(items.bgChoice.substr(1,2), 16), 
+              parseInt(items.bgChoice.substr(3,2), 16),
+              parseInt(items.bgChoice.substr(5,2), 16)
+            ]
+            settings.colorChoice = [
+              parseInt(items.colorChoice.substr(1,2), 16), 
+              parseInt(items.colorChoice.substr(3,2), 16),
+              parseInt(items.colorChoice.substr(5,2), 16)
+            ]
             settings.fontChoice = parseInt(items.fontChoice, 10);
             settings.speedChoice = parseInt(items.speedChoice, 10);
             settings.transparencyChoice = parseFloat(items.transparencyChoice);
